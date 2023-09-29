@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amatta <amatta@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/29 17:10:55 by amatta            #+#    #+#             */
+/*   Updated: 2023/09/29 17:25:04 by amatta           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 // u_int64_t	get_timestamp(void)
@@ -80,6 +92,7 @@ void    is_eating(t_philo *philo)
         if (philo->data->finished_eat >= philo->data->num_philo)
         {
             printf("reached must eat times! that is %d", philo->data->must_eat);
+
             exit(1);
         }
     }
@@ -106,7 +119,7 @@ void *routine(void *arg)
 {
     t_philo *philo = (t_philo *)arg;
 
-    while (1)
+    while (1) // dead != 1 aggiungere riga 92 e toglierlo da la
     {
         has_taken_a_fork(philo);
         is_eating(philo);
@@ -131,7 +144,7 @@ void    *monitor_thread_is_dead (void *arg)
         {
             if (get_timestamp() - philo[i].last_meal > philo->data->time_to_die)
             {
-                printf("%zu %d died\n", (get_timestamp() - philo[i].data->start_time) , philo[i].id);
+                printf("%zu %d died\n", (get_timestamp() - philo[i].data->start_time) , philo[i].id);  //inserire una variabile dead=1
                 exit(1);
             }
             i++;
@@ -179,7 +192,7 @@ int main(int argc, char *argv[]) {
             data.must_eat = atoi(argv[5]);
         }
     data.start_time = get_timestamp();
-    data.is_dead = 0;
+    //data.is_dead = 0;
 
     // Inizializzazione delle forks
     for (int i = 0; i < num_philo; i++)
@@ -212,7 +225,8 @@ int main(int argc, char *argv[]) {
     // Wait for the monitor thread to finish
     pthread_join(monitor_thread_id, NULL);
 
-    // Distruggi i mutex delle forks
+
+    // Distruggi i mutex delle forks  ft_exit
     for (int i = 0; i < num_philo; i++)
     {
         pthread_mutex_destroy(&(forks[i].used));

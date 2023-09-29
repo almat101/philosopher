@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amatta <amatta@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/29 17:11:00 by amatta            #+#    #+#             */
+/*   Updated: 2023/09/29 17:12:25 by amatta           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILO_H
 #define PHILO_H
 
@@ -23,7 +35,7 @@ typedef struct s_philo
     int				id;
     int             num_of_eat;
 	size_t			last_meal;
-    pthread_mutex_t last_meal_mtx;
+    //pthread_mutex_t last_meal_mtx;
     pthread_mutex_t	forks;
     t_fork			*l_fork;
     t_fork			*r_fork;
@@ -31,9 +43,9 @@ typedef struct s_philo
 
 typedef struct s_data
 {
-	int				*is_dead;  // int to check if a philo is dead
+	//int				*is_dead;  // int to check if a philo is dead
 	int				num_philo;
-	pthread_mutex_t	lock;     // mutex for dead
+	//pthread_mutex_t	lock;     // mutex for dead
     pthread_mutex_t print;    // mutex for print an action
     size_t			time_to_die;
     size_t			time_to_eat;

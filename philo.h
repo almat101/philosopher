@@ -21,6 +21,7 @@ typedef struct s_philo
 
     struct s_data	*data;
     int				id;
+    int             num_of_eat;
 	size_t			last_meal;
     pthread_mutex_t last_meal_mtx;
     pthread_mutex_t	forks;
@@ -38,6 +39,8 @@ typedef struct s_data
     size_t			time_to_eat;
     size_t			time_to_sleep;
     size_t			start_time;
+    int             must_eat;
+    int             finished_eat;
 }	t_data;
 
 size_t	get_timestamp(void);

@@ -41,16 +41,16 @@ void    has_taken_a_fork(t_philo *philo)
     if (philo->id  % 2 == 0)
     {
         pthread_mutex_lock(&(philo->l_fork->used));
-        printf("%zu %d has taken l fork\n", (get_timestamp() - philo->data->start_time) ,philo->id);
+        printf("%zu %d has taken a fork\n", (get_timestamp() - philo->data->start_time) ,philo->id);
         pthread_mutex_lock(&(philo->r_fork->used));
-        printf("%zu %d has taken r fork\n",(get_timestamp() - philo->data->start_time) , philo->id);
+        printf("%zu %d has taken a fork\n",(get_timestamp() - philo->data->start_time) , philo->id);
     }
     else
     {
         pthread_mutex_lock(&(philo->r_fork->used));
-        printf("%zu %d has taken r fork\n", (get_timestamp() - philo->data->start_time) ,philo->id);
+        printf("%zu %d has taken a fork\n", (get_timestamp() - philo->data->start_time) ,philo->id);
         pthread_mutex_lock(&(philo->l_fork->used));
-        printf("%zu %d has taken l fork\n", (get_timestamp() - philo->data->start_time) ,philo->id);
+        printf("%zu %d has taken a fork\n", (get_timestamp() - philo->data->start_time) ,philo->id);
     }
 }
 
@@ -67,6 +67,22 @@ void    is_eating(t_philo *philo)
     //pthread_mutex_lock(&philo->last_meal_mtx);
     philo->last_meal = get_timestamp();
     pthread_mutex_unlock(&(philo->data->print));
+    if (philo->data->must_eat)
+    {
+        philo->num_of_eat++;
+       // printf("merdaaaaaaaaaa non deve mangiare\n");
+    }
+   // printf("%d philo num, %d num of eat %d must_eat\n ",philo->id,  philo->num_of_eat, philo->data->must_eat);
+    if (philo->num_of_eat >= philo->data->must_eat && philo->data->must_eat != -1) //  != e un check importante senno usciva subito
+    {
+        philo->data->finished_eat++;
+       // printf("data finished eat  %d  >= data  must_eat %d\n", philo->data->finished_eat ,philo->data->must_eat);
+        if (philo->data->finished_eat >= philo->data->num_philo)
+        {
+            printf("reached must eat times! that is %d", philo->data->must_eat);
+            exit(1);
+        }
+    }
     //pthread_mutex_unlock(&philo->last_meal_mtx);
     ft_usleep(philo->data->time_to_eat);
 }
@@ -90,14 +106,14 @@ void *routine(void *arg)
 {
     t_philo *philo = (t_philo *)arg;
 
-    while (1) {
+    while (1)
+    {
         has_taken_a_fork(philo);
         is_eating(philo);
         release_fork(philo);
         is_sleeping(philo);
         is_thinking(philo);
     }
-
     return NULL;
 }
 
@@ -109,7 +125,7 @@ void    *monitor_thread_is_dead (void *arg)
     while (1)
     {
         i = 0;
-        pthread_mutex_lock(&(philo->last_meal_mtx));
+        //pthread_mutex_lock(&(philo->last_meal_mtx));
         pthread_mutex_lock(&(philo->data->print));
         while (i < philo->data->num_philo)
         {
@@ -120,7 +136,7 @@ void    *monitor_thread_is_dead (void *arg)
             }
             i++;
         }
-        pthread_mutex_unlock(&(philo->last_meal_mtx));
+        //pthread_mutex_unlock(&(philo->last_meal_mtx));
         pthread_mutex_unlock(&(philo->data->print));
         usleep(1000);
     }
@@ -129,10 +145,10 @@ void    *monitor_thread_is_dead (void *arg)
 
 int main(int argc, char *argv[]) {
 
-    if (argc != 2)
+    if (argc != 5 && argc != 6)
     {
-        printf("Uso: %s <num_philo> <time_to_die> <time_to_eat> <time_to_sleep>\n", argv[0]);
-        return 1;
+        printf("%s <num_philo> <time_to_die> <time_to_eat> <time_to_sleep>\n", argv[0]);
+        return 0;
     }
 
     int num_philo = atoi(argv[1]);
@@ -152,9 +168,16 @@ int main(int argc, char *argv[]) {
 
 
     data.num_philo = atoi(argv[1]);
-    data.time_to_die = 410;
-    data.time_to_eat = 200;
-    data.time_to_sleep = 200;
+    data.time_to_die = atoi(argv[2]);
+    data.time_to_eat = atoi(argv[3]);
+    data.time_to_sleep = atoi(argv[4]);
+    data.must_eat = -1;
+    data.finished_eat = 0;
+    if (argc == 6)
+        {
+            //data.must_eat_provided = 1;
+            data.must_eat = atoi(argv[5]);
+        }
     data.start_time = get_timestamp();
     data.is_dead = 0;
 
@@ -174,6 +197,7 @@ int main(int argc, char *argv[]) {
         philo[i].l_fork = &forks[i];
         philo[i].r_fork = &forks[(i + 1) % num_philo];
         philo[i].last_meal = get_timestamp();
+        philo[i].num_of_eat = 0;
         pthread_create(&thread_id[i], NULL, routine, &philo[i]);
     }
 

@@ -6,7 +6,7 @@
 /*   By: ale <ale@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 17:10:55 by amatta            #+#    #+#             */
-/*   Updated: 2023/09/30 15:59:02 by ale              ###   ########.fr       */
+/*   Updated: 2023/09/30 16:03:21 by ale              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void release_fork(t_philo *philo)
 
 void is_eating(t_philo *philo)
 {
-	// inizializza il mutex
+	// ricorda di inizializzare il mutex per printare
 	int result = pthread_mutex_lock(&(philo->data->print));
 
 	if (result != 0)

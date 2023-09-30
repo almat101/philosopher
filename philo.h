@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amatta <amatta@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ale <ale@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 17:11:00 by amatta            #+#    #+#             */
-/*   Updated: 2023/09/29 17:12:25 by amatta           ###   ########.fr       */
+/*   Updated: 2023/09/30 15:59:11 by ale              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,24 +35,21 @@ typedef struct s_philo
     int				id;
     int             num_of_eat;
 	size_t			last_meal;
-    //pthread_mutex_t last_meal_mtx;
-    pthread_mutex_t	forks;
     t_fork			*l_fork;
     t_fork			*r_fork;
 }	t_philo;
 
 typedef struct s_data
 {
-	//int				*is_dead;  // int to check if a philo is dead
+	
 	int				num_philo;
-	//pthread_mutex_t	lock;     // mutex for dead
-    pthread_mutex_t print;    // mutex for print an action
+    int             must_eat;
+    int             finished_eat;
     size_t			time_to_die;
     size_t			time_to_eat;
     size_t			time_to_sleep;
     size_t			start_time;
-    int             must_eat;
-    int             finished_eat;
+    pthread_mutex_t print;    // mutex for print an action
 }	t_data;
 
 size_t	get_timestamp(void);

@@ -6,7 +6,7 @@
 /*   By: ale <ale@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 17:11:00 by amatta            #+#    #+#             */
-/*   Updated: 2023/09/30 15:59:11 by ale              ###   ########.fr       */
+/*   Updated: 2023/09/30 23:20:33 by ale              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 #include <pthread.h>
 #include <sys/time.h>
 #include <sys/types.h>
-#include <stdbool.h>
 #include <stdint.h>
 
 
@@ -34,6 +33,8 @@ typedef struct s_philo
     struct s_data	*data;
     int				id;
     int             num_of_eat;
+    int             died;
+    pthread_mutex_t mutex_end;
 	size_t			last_meal;
     t_fork			*l_fork;
     t_fork			*r_fork;
@@ -41,7 +42,7 @@ typedef struct s_philo
 
 typedef struct s_data
 {
-	
+
 	int				num_philo;
     int             must_eat;
     int             finished_eat;
@@ -49,7 +50,7 @@ typedef struct s_data
     size_t			time_to_eat;
     size_t			time_to_sleep;
     size_t			start_time;
-    pthread_mutex_t print;    // mutex for print an action
+    pthread_mutex_t print;
 }	t_data;
 
 size_t	get_timestamp(void);
@@ -60,7 +61,7 @@ void	is_eating(t_philo *philo);
 void	is_sleeping(t_philo *philo);
 void	is_thinking(t_philo *philo);
 void	*routine(void *arg);
-void    *monitor_thread_is_dead (void *arg);
+void    *monitor_life (void *arg);
 
 #endif
 

@@ -6,7 +6,7 @@
 /*   By: ale <ale@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 17:10:55 by amatta            #+#    #+#             */
-/*   Updated: 2023/09/30 23:24:47 by ale              ###   ########.fr       */
+/*   Updated: 2023/10/01 17:15:42 by ale              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,9 @@ int main(int argc, char *argv[])
 	pthread_mutex_init(&data.print, NULL);
 	if (argc == 6)
 	{
-		// data.must_eat_provided = 1;
 		data.must_eat = atoi(argv[5]);
 	}
 	data.start_time = get_timestamp();
-	// data.is_dead = 0;
 
 	// Inizializzazione delle forks
 	for (int i = 0; i < num_philo; i++)

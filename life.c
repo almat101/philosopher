@@ -6,7 +6,7 @@
 /*   By: ale <ale@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 22:36:07 by ale               #+#    #+#             */
-/*   Updated: 2023/09/30 23:30:21 by ale              ###   ########.fr       */
+/*   Updated: 2023/10/01 17:17:24 by ale              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,38 +57,31 @@ void is_eating(t_philo *philo)
 {
 	// ricorda di inizializzare il mutex per printare
 	int result = pthread_mutex_lock(&(philo->data->print));
-
 	if (result != 0)
 	{
 		fprintf(stderr, " error locking mutex %d\n", result);
 	}
 	printf("%zu %d is eating\n", (get_timestamp() - philo->data->start_time), philo->id);
-	// pthread_mutex_lock(&philo->last_meal_mtx);
 	philo->last_meal = get_timestamp();
 	result = pthread_mutex_unlock(&(philo->data->print));
-
 	if (result != 0)
 	{
 		fprintf(stderr, " error locking mutex %d\n", result);
 	}
-
-	// pthread_mutex_unlock(&(philo->data->print));
 	if (philo->data->must_eat)
 	{
 		philo->num_of_eat++;
-		// printf("merdaaaaaaaaaa non deve mangiare\n");
 	}
-	// printf("%d philo num, %d num of eat %d must_eat\n ",philo->id,  philo->num_of_eat, philo->data->must_eat);
+	
 	if (philo->num_of_eat >= philo->data->must_eat && philo->data->must_eat != -1) //  != e un check importante senno usciva subito
 	{
 		philo->data->finished_eat++;
-		// printf("data finished eat  %d  >= data  must_eat %d\n", philo->data->finished_eat ,philo->data->must_eat);
 		if (philo->data->finished_eat >= philo->data->num_philo)
 		{
-			philo->died = 1;
+			//implementa una condizione di uscita quando si raggiunge finished_eat >= num_philo togli exit(1)
+			exit(1);
 		}
 	}
-	// pthread_mutex_unlock(&philo->last_meal_mtx);
 	ft_usleep(philo->data->time_to_eat);
 }
 

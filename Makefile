@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: amatta <amatta@student.42.fr>              +#+  +:+       +#+         #
+#    By: ale <ale@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/05 11:40:15 by amatta            #+#    #+#              #
-#    Updated: 2023/10/10 15:04:23 by amatta           ###   ########.fr        #
+#    Updated: 2023/10/10 23:26:39 by ale              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ CC = clang
 
 FLAGS = -Wall -Wextra -Werror
 
-SRCS = main.c init.c utils.c
+SRCS = main.c init.c utils.c  life.c thread.c
 
 OBJS = $(SRCS:.c=.o)
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amatta <amatta@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ale <ale@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 14:10:05 by amatta            #+#    #+#             */
-/*   Updated: 2023/10/10 16:00:58 by amatta           ###   ########.fr       */
+/*   Updated: 2023/10/10 23:47:29 by ale              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,35 +43,34 @@ int	init_data(int argc, char **argv, t_data *data)
 	return (0);
 }
 
-void	init_philo(t_data *data, t_philo *philo, t_fork **forks, int i)
+void	init_philo(t_philo *philo, t_data *data, t_fork **fork, int i)
 {
-	puts("ok");
 	philo->data = data;
-	philo->id = i;
+	philo->id = i + 1;
 	philo->last_meal = 0;
 	philo->meal_count = 0;
-	philo->l_fork = &((*forks)[i]);
-	philo->r_fork = &((*forks)[(i + 1) % data->num_philos]);
+	philo->l_fork = &((*fork)[i]);
+	philo->r_fork = &((*fork)[(i + 1) % data->num_philos]);
 	pthread_mutex_init(&(philo->l_fork->used), NULL);
 	pthread_mutex_init(&(philo->r_fork->used), NULL);
 }
 
-int	start_philos(t_data *data, t_philo **philo, t_fork **forks)
+int	start_philos( t_philo **philo, t_data *data, t_fork **fork)
 {
 	int	i;
 
 	*philo = (t_philo *)malloc(sizeof(t_philo) * data->num_philos);
 	if (!(*philo))
 		return (1);
-	*forks = (t_fork *)malloc(sizeof(t_philo) * data->num_philos);
-	if (!(*forks))
+	*fork = (t_fork *)malloc(sizeof(t_philo) * data->num_philos);
+	if (!(*fork))
 		{	free(philo);
 			return (1);
 		}
 	i = 0;
 	while (i < data->num_philos)
 	{
-		init_philo(data,&(*philo)[i],forks , i);
+		init_philo(&(*philo)[i], data, fork, i);
 		i++;
 	}
 	return (0);

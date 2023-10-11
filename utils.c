@@ -6,7 +6,7 @@
 /*   By: amatta <amatta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 22:34:21 by ale               #+#    #+#             */
-/*   Updated: 2023/10/10 15:06:22 by amatta           ###   ########.fr       */
+/*   Updated: 2023/10/11 11:24:27 by amatta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,21 @@ void	ft_usleep(long int ms)
 	start_time = get_timestamp();
 	while ((get_timestamp() - start_time) < ms)
 		usleep(100);
+}
+
+int	ft_free(t_philo *philo, t_fork *fork, int return_code)
+{
+	free(philo);
+	free(fork);
+	return (return_code);
+}
+
+void	printf_philo(t_philo *philo, char *msg)
+{
+	long	time;
+
+	time = get_timestamp() - philo->data->start_time;
+	pthread_mutex_lock(&(philo->data->mutex_print));
+	printf("%lu %d %s", time, philo->id, msg);
+	pthread_mutex_unlock(&(philo->data->mutex_print));
 }

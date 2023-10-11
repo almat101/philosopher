@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ale <ale@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: amatta <amatta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 14:10:05 by amatta            #+#    #+#             */
-/*   Updated: 2023/10/10 23:47:29 by ale              ###   ########.fr       */
+/*   Updated: 2023/10/11 11:17:32 by amatta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	init_data(int argc, char **argv, t_data *data)
 		write(2, "Error invalid args\n", 20);
 		return (1);
 	}
-	pthread_mutex_init(&data->print, NULL);
+	pthread_mutex_init(&data->mutex_print, NULL);
 	pthread_mutex_init(&data->mutex_died, NULL);
 	return (0);
 }

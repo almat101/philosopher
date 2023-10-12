@@ -6,7 +6,7 @@
 /*   By: amatta <amatta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 22:34:21 by ale               #+#    #+#             */
-/*   Updated: 2023/10/11 11:24:27 by amatta           ###   ########.fr       */
+/*   Updated: 2023/10/12 16:49:54 by amatta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ long	get_timestamp(void)
 	struct timeval	tv;
 
 	gettimeofday(&tv, NULL);
-	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
 
 void	ft_usleep(long int ms)
@@ -72,6 +72,7 @@ void	printf_philo(t_philo *philo, char *msg)
 
 	time = get_timestamp() - philo->data->start_time;
 	pthread_mutex_lock(&(philo->data->mutex_print));
-	printf("%lu %d %s", time, philo->id, msg);
+	if (!is_dead(philo))
+		printf("%03ld %d %s", time, philo->id, msg);
 	pthread_mutex_unlock(&(philo->data->mutex_print));
 }

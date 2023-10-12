@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ale <ale@student.42.fr>                    +#+  +:+       +#+         #
+#    By: amatta <amatta@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/05 11:40:15 by amatta            #+#    #+#              #
-#    Updated: 2023/10/10 23:26:39 by ale              ###   ########.fr        #
+#    Updated: 2023/10/12 12:30:58 by amatta           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,9 +15,9 @@ NAME = philo
 
 CC = clang
 
-FLAGS = -Wall -Wextra -Werror
+#FLAGS = -Wall -Wextra -Werror
 
-SRCS = main.c init.c utils.c  life.c thread.c
+SRCS = main.c init.c utils.c  life.c thread.c death.c
 
 OBJS = $(SRCS:.c=.o)
 

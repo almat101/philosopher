@@ -6,11 +6,12 @@
 /*   By: amatta <amatta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 22:36:07 by ale               #+#    #+#             */
-/*   Updated: 2023/10/11 11:27:39 by amatta           ###   ########.fr       */
+/*   Updated: 2023/10/12 17:17:32 by amatta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
 
 
 void	*routine(void *arg)
@@ -18,17 +19,19 @@ void	*routine(void *arg)
 	t_philo *philo;
 
 	philo = (t_philo *)arg;
-	while (1)
+	if (philo->id % 2 != 0)
+		ft_usleep(philo->data->time_to_eat);
+	while (!is_dead(philo))
 	{
 		has_taken_a_fork(philo);
 		is_eating(philo);
 		release_fork(philo);
 		is_sleeping(philo);
 		is_thinking(philo);
+
 	}
 	return (NULL);
 }
-
 
 void has_taken_a_fork(t_philo *philo)
 {
@@ -66,7 +69,9 @@ void is_eating(t_philo *philo)
 {
 	printf_philo(philo, "is eating\n");
 	ft_usleep(philo->data->time_to_eat);
+	pthread_mutex_lock(&(philo->last_meal_mtx));
 	philo->last_meal = get_timestamp() - philo->data->start_time;
+	pthread_mutex_unlock(&(philo->last_meal_mtx));
 }
 
 void is_sleeping(t_philo *philo)

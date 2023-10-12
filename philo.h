@@ -6,7 +6,7 @@
 /*   By: amatta <amatta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 17:11:00 by amatta            #+#    #+#             */
-/*   Updated: 2023/10/11 11:44:41 by amatta           ###   ########.fr       */
+/*   Updated: 2023/10/12 17:18:45 by amatta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,14 @@ typedef struct s_data
 	int				died;
 	int				num_philos;
 	int				must_eat;
-	int				finished_eat;
+	int				num_meals;
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
 	long			start_time;
 	pthread_mutex_t	mutex_print;
 	pthread_mutex_t	mutex_died;
-	pthread_t		th_death;
+	pthread_t		death;
 }	t_data;
 
 typedef struct s_fork
@@ -45,11 +45,12 @@ typedef struct s_philo
 {
 	struct s_data	*data;
 	int				id;
-	int				meal_count;
+	int				meals;
 	long			last_meal;
+	pthread_mutex_t	last_meal_mtx;
 	t_fork			*l_fork;
 	t_fork			*r_fork;
-	pthread_t		th_life;
+	pthread_t		life;
 }	t_philo;
 
 void	printf_philo(t_philo *philo, char *msg);
@@ -69,7 +70,11 @@ void	is_eating(t_philo *philo);
 void	is_sleeping(t_philo *philo);
 void	is_thinking(t_philo *philo);
 void	*routine(void *arg);
+void	*routine_death(void *arg);
 int		ft_free(t_philo *philo, t_fork *fork, int return_code);
+int		one_dead(t_philo *philo, long time);
+int		is_dead(t_philo *philo);
+int		stop_threads(t_philo *philo);
 
 #endif
 

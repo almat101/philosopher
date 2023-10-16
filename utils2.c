@@ -6,7 +6,7 @@
 /*   By: amatta <amatta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 12:19:11 by amatta            #+#    #+#             */
-/*   Updated: 2023/10/16 12:44:02 by amatta           ###   ########.fr       */
+/*   Updated: 2023/10/16 14:46:59 by amatta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,9 @@ void	printf_philo(t_philo *philo, char *msg)
 	pthread_mutex_unlock(&(philo->data->mutex_print));
 }
 
-int	ft_free(t_philo *philo, t_data *data, t_fork *fork, int return_code)
+int	ft_free(t_philo *philo, t_fork *fork, int return_code)
 {
 	free(philo);
 	free(fork);
-	free(data->fork_status);
 	return (return_code);
 }

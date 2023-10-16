@@ -6,7 +6,7 @@
 /*   By: amatta <amatta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 17:11:00 by amatta            #+#    #+#             */
-/*   Updated: 2023/10/16 12:45:02 by amatta           ###   ########.fr       */
+/*   Updated: 2023/10/16 14:47:43 by amatta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ typedef struct s_data
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				must_eat;
-	int				*fork_status;
 	pthread_mutex_t	mutex_print;
 	pthread_mutex_t	mutex_died;
 	pthread_t		death;
@@ -50,8 +49,6 @@ typedef struct s_philo
 	int				id;
 	int				meals;
 	long			last_meal;
-	int				l_fork_used;
-	int				r_fork_used;
 	t_fork			*l_fork;
 	t_fork			*r_fork;
 	pthread_t		life;
@@ -77,7 +74,7 @@ void	is_thinking(t_philo *philo);
 void	printf_philo(t_philo *philo, char *msg);
 void	*routine(void *arg);
 void	*routine_death(void *arg);
-int		ft_free(t_philo *philo, t_data *data, t_fork *fork, int return_code);
+int		ft_free(t_philo *philo, t_fork *fork, int return_code);
 int		check_one_death(t_philo *philo, long time);
 int		is_dead(t_philo *philo);
 int		stop_threads(t_philo *philo);

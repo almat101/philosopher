@@ -6,7 +6,7 @@
 /*   By: amatta <amatta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 17:10:55 by amatta            #+#    #+#             */
-/*   Updated: 2023/10/16 12:41:46 by amatta           ###   ########.fr       */
+/*   Updated: 2023/10/16 14:47:33 by amatta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,6 @@ int	main(int argc, char *argv[])
 	if (!create_threads(&philo, &data))
 		return (stop_threads(&philo[0]));
 	if (!wait_threads(&philo, &data))
-		return (ft_free(philo, &data, fork, EXIT_FAILURE));
-	return (ft_free(philo, &data, fork, return_code));
+		return (ft_free(philo, fork, EXIT_FAILURE));
+	return (ft_free(philo, fork, return_code));
 }

@@ -6,7 +6,7 @@
 /*   By: amatta <amatta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 14:10:05 by amatta            #+#    #+#             */
-/*   Updated: 2023/10/16 12:35:09 by amatta           ###   ########.fr       */
+/*   Updated: 2023/10/16 14:46:10 by amatta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,6 @@ int	init_data( char **argv, t_data *data)
 
 int	init_data2(int argc, char **argv, t_data *data)
 {
-	data->fork_status = malloc(sizeof(int) * data->num_philos);
-	if (!data->fork_status)
-	{
-		write(2, "Error on fork status malloc\n", 29);
-		return (0);
-	}
-	memset(data->fork_status, 0, sizeof(int) * data->num_philos);
 	if (argc == 6)
 		data->must_eat = ft_atolplus(argv[5]);
 	if (data->num_philos < 1 || data->time_to_die < 1 || data->time_to_eat < 1 \
@@ -62,8 +55,6 @@ void	init_philo(t_philo *philo, t_fork **fork, t_data *data, int i)
 	philo->last_meal = 0;
 	philo->l_fork = &((*fork)[i]);
 	philo->r_fork = &((*fork)[(i + 1) % data->num_philos]);
-	philo->l_fork_used = i;
-	philo->r_fork_used = (i + 1) % data->num_philos;
 	pthread_mutex_init(&(philo->l_fork->used), NULL);
 	pthread_mutex_init(&(philo->r_fork->used), NULL);
 	pthread_mutex_init(&(philo->last_meal_mtx), NULL);

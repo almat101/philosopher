@@ -6,17 +6,15 @@
 /*   By: amatta <amatta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 22:36:07 by ale               #+#    #+#             */
-/*   Updated: 2023/10/12 17:17:32 by amatta           ###   ########.fr       */
+/*   Updated: 2023/10/16 12:39:44 by amatta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-
-
 void	*routine(void *arg)
 {
-	t_philo *philo;
+	t_philo	*philo;
 
 	philo = (t_philo *)arg;
 	if (philo->id % 2 != 0)
@@ -28,45 +26,36 @@ void	*routine(void *arg)
 		release_fork(philo);
 		is_sleeping(philo);
 		is_thinking(philo);
-
 	}
 	return (NULL);
 }
 
-void has_taken_a_fork(t_philo *philo)
+void	has_taken_a_fork(t_philo *philo)
 {
-	if (philo->id % 2 == 0)
+	if (philo->data->fork_status[philo->l_fork_used] == 0)
 	{
+		philo->data->fork_status[philo->l_fork_used] = 1;
 		pthread_mutex_lock(&(philo->l_fork->used));
 		printf_philo(philo, "has taken a fork\n");
+		philo->data->fork_status[philo->r_fork_used] = 1;
 		pthread_mutex_lock(&(philo->r_fork->used));
 		printf_philo(philo, "has taken a fork\n");
+		philo->data->fork_status[philo->l_fork_used] = 0;
+		philo->data->fork_status[philo->r_fork_used] = 0;
 	}
 	else
-	{
-		pthread_mutex_lock(&(philo->r_fork->used));
-		printf_philo(philo, "has taken a fork\n");
-		pthread_mutex_lock(&(philo->l_fork->used));
-		printf_philo(philo, "has taken a fork\n");
-	}
+		ft_usleep(philo->data->time_to_eat / 2);
 }
 
 void	release_fork(t_philo *philo)
 {
-	if (philo->id %2 == 0)
-	{
-	pthread_mutex_unlock(&(philo->l_fork->used));
-	pthread_mutex_unlock(&(philo->r_fork->used));
-	}
-	else
-	{
 	pthread_mutex_unlock(&(philo->r_fork->used));
 	pthread_mutex_unlock(&(philo->l_fork->used));
-	}
 }
 
-void is_eating(t_philo *philo)
+void	is_eating(t_philo *philo)
 {
+	check_eated(philo);
 	printf_philo(philo, "is eating\n");
 	ft_usleep(philo->data->time_to_eat);
 	pthread_mutex_lock(&(philo->last_meal_mtx));
@@ -74,13 +63,8 @@ void is_eating(t_philo *philo)
 	pthread_mutex_unlock(&(philo->last_meal_mtx));
 }
 
-void is_sleeping(t_philo *philo)
+void	is_sleeping(t_philo *philo)
 {
 	printf_philo(philo, "is sleeping\n");
 	ft_usleep(philo->data->time_to_sleep);
-}
-
-void is_thinking(t_philo *philo)
-{
-	printf_philo(philo, "is thinking\n");
 }

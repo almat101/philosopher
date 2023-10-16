@@ -6,12 +6,12 @@
 /*   By: amatta <amatta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 17:11:00 by amatta            #+#    #+#             */
-/*   Updated: 2023/10/12 17:18:45 by amatta           ###   ########.fr       */
+/*   Updated: 2023/10/16 12:45:02 by amatta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
-#define PHILO_H
+# define PHILO_H
 
 # include <stdio.h>
 # include <unistd.h>
@@ -20,17 +20,20 @@
 # include <sys/time.h>
 # include <sys/types.h>
 # include <stdint.h>
+# include <string.h>
 
 typedef struct s_data
 {
 	int				died;
 	int				num_philos;
-	int				must_eat;
-	int				num_meals;
+	int				finished;
+	int				finished_all;
+	long			start_time;
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
-	long			start_time;
+	int				must_eat;
+	int				*fork_status;
 	pthread_mutex_t	mutex_print;
 	pthread_mutex_t	mutex_died;
 	pthread_t		death;
@@ -38,7 +41,7 @@ typedef struct s_data
 
 typedef struct s_fork
 {
-	pthread_mutex_t used;
+	pthread_mutex_t	used;
 }	t_fork;
 
 typedef struct s_philo
@@ -47,21 +50,23 @@ typedef struct s_philo
 	int				id;
 	int				meals;
 	long			last_meal;
-	pthread_mutex_t	last_meal_mtx;
+	int				l_fork_used;
+	int				r_fork_used;
 	t_fork			*l_fork;
 	t_fork			*r_fork;
 	pthread_t		life;
+	pthread_mutex_t	last_meal_mtx;
 }	t_philo;
 
-void	printf_philo(t_philo *philo, char *msg);
 int		check_argc(int argc);
-int		init_data(int argc, char **argv, t_data *data);
+int		init_data( char **argv, t_data *data);
+int		init_data2(int argc, char **argv, t_data *data);
 int		ft_is_space(char c);
 long	ft_atolplus(const char *str);
 long	get_timestamp(void);
 void	ft_usleep(long int ms);
-int		start_philos(t_philo **philo, t_data *data, t_fork **fork);
-void	init_philos(t_philo *philo, t_data *data, t_fork **fork, int i);
+int		start_philos(t_philo **philo, t_fork **fork, t_data *data);
+void	init_philos(t_philo *philo, t_fork **fork, t_data *data, int i);
 int		create_threads(t_philo **philo, t_data *data);
 int		wait_threads(t_philo **philo, t_data *data);
 void	has_taken_a_fork(t_philo *philo);
@@ -69,12 +74,13 @@ void	release_fork(t_philo *philo);
 void	is_eating(t_philo *philo);
 void	is_sleeping(t_philo *philo);
 void	is_thinking(t_philo *philo);
+void	printf_philo(t_philo *philo, char *msg);
 void	*routine(void *arg);
 void	*routine_death(void *arg);
-int		ft_free(t_philo *philo, t_fork *fork, int return_code);
-int		one_dead(t_philo *philo, long time);
+int		ft_free(t_philo *philo, t_data *data, t_fork *fork, int return_code);
+int		check_one_death(t_philo *philo, long time);
 int		is_dead(t_philo *philo);
 int		stop_threads(t_philo *philo);
+void	check_eated(t_philo *philo);
 
 #endif
-

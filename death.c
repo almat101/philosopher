@@ -6,7 +6,7 @@
 /*   By: amatta <amatta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:24:53 by amatta            #+#    #+#             */
-/*   Updated: 2023/10/12 17:18:22 by amatta           ###   ########.fr       */
+/*   Updated: 2023/10/16 12:33:26 by amatta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,26 @@ void	*routine_death(void *arg)
 	return (NULL);
 }
 
+void	check_eated(t_philo *philo)
+{
+	if (philo->data->must_eat > 0 && ++philo->meals == philo->data->must_eat)
+	{
+		if (++philo->data->finished_all == philo->data->num_philos)
+		{
+			ft_usleep(philo->data->time_to_eat);
+			pthread_mutex_lock(&(philo->data->mutex_died));
+			philo->data->died = 1;
+			pthread_mutex_unlock(&(philo->data->mutex_died));
+		}
+	}
+}
+
 int	is_dead(t_philo *philo)
 {
-	int died;
+	int	died;
 
 	pthread_mutex_lock(&(philo->data->mutex_died));
 	died = philo->data->died;
 	pthread_mutex_unlock(&(philo->data->mutex_died));
 	return (died);
 }
-

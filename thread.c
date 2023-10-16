@@ -6,7 +6,7 @@
 /*   By: amatta <amatta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 23:09:19 by ale               #+#    #+#             */
-/*   Updated: 2023/10/12 12:40:40 by amatta           ###   ########.fr       */
+/*   Updated: 2023/10/16 12:43:14 by amatta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	create_threads(t_philo **philo, t_data *data)
 	while (i < data->num_philos)
 	{
 		if (pthread_create(&((*philo)[i].life), NULL, routine,
-				&((*philo)[i])))
+			&((*philo)[i])))
 			return (0);
 		i++;
 	}

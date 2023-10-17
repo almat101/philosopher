@@ -6,7 +6,7 @@
 /*   By: amatta <amatta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 22:36:07 by ale               #+#    #+#             */
-/*   Updated: 2023/10/16 14:45:36 by amatta           ###   ########.fr       */
+/*   Updated: 2023/10/17 15:25:18 by amatta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,11 @@ void	release_fork(t_philo *philo)
 
 void	is_eating(t_philo *philo)
 {
-	printf_philo(philo, "is eating\n");
-	ft_usleep(philo->data->time_to_eat);
 	pthread_mutex_lock(&(philo->last_meal_mtx));
 	philo->last_meal = get_timestamp() - philo->data->start_time;
 	pthread_mutex_unlock(&(philo->last_meal_mtx));
+	printf_philo(philo, "is eating\n");
+	ft_usleep(philo->data->time_to_eat);
 }
 
 void	is_sleeping(t_philo *philo)
